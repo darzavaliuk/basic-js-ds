@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../extensions/index.js');
+const { NotImplementedError } = require("../extensions/index.js");
 
 // const { ListNode } = require('../extensions/list-node.js');
 
@@ -13,24 +13,60 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.dequeue(); // returns the top element from queue and deletes it, returns 1
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
+
+class QueueNode {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
 class Queue {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
 
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    getUnderlyingList() {
+        return this.head;
+    }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    enqueue(value) {
+        if (this.head == null) {
+            var r = new QueueNode(value);
+            this.head = r;
+            this.tail = this.head;
+            return;
+        }
 
-  dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+        if (this.tail == this.head) {
+            var r = new QueueNode(value);
+            this.tail = r;
+            this.head.next = this.tail;
+        } else {
+            var r = this.tail;
+            this.tail = new QueueNode(value);
+            r.next = this.tail;
+            return;
+        }
+    }
+
+    dequeue() {
+        if (!this.tail) return null;
+
+        if (this.tail != this.head) {
+            var r = this.head.value;
+            this.head = this.head.next;
+            return r;
+        } else {
+            var r = this.head.value;
+            this.head = null;
+            this.tail = null;
+            return r;
+        }
+    }
 }
 
 module.exports = {
-  Queue
+    Queue,
 };
